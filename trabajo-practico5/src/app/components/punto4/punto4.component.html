@@ -1,0 +1,33 @@
+<!-- VIDAS Y PUNTUACION -->
+<div class="container bg-success text-white" *ngIf="jugando">
+    <h1 class="display-4 text-center">
+        Vidas:{{vidas}} Puntos:{{puntos}}
+    </h1>
+</div>
+<!-- IMAGEN -->
+<div class="container" *ngIf="jugando">
+  <img class="card-img-top" [src]="palabra.urlImagen" width="250px" height="390px">
+</div>
+<!-- PALABRA EN INGLES-->
+<div class="container my-3" *ngIf="jugando">
+    <div class="row">
+        <div class="col-md-2 mt3 col-centered" *ngFor="let iter of palabraIngles; index as i">
+            <input type="text" style="font-size: 30px;" name="name" class="form-control border border-dark" [(ngModel)]="respuesta[i]" maxlength="1" (change)='comprobarPalabra(i)'>
+        </div>
+    </div>
+</div>
+<!-- PALABRA EN ESPAÑOL -->
+<div class="container" *ngIf="jugando">
+    <h1 class="display-4 text-center">{{palabra.palabraEsp}}</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" (click)='iniciarNivel()'>
+                <h5 *ngIf="!jugando">Iniciar</h5>
+                <h5 *ngIf="jugando">Reiniciar</h5>
+            </button>
+        </div>
+    </div>
+</div>

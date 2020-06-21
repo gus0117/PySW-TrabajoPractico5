@@ -1,0 +1,111 @@
+<div class="container">
+    <form class="card">
+      <div class="card-header"> Compra de pasajes </div>
+        <div class="card-body">
+          <div class="row form-group">
+            <label class="col-sm-12 col-md-4">DNI del pasajero</label>
+            <input class="form-control col-sm-12 col-md-8" type="number" name="txtdnipasajero" [(ngModel)] = "pasaje.dniPasajero"/>
+          </div>
+        <div class="row form-group">
+          <label class="col-sm-12 col-md-4" (change) = 'actualizarPrecio()' >Precio</label>
+          <input class="form-control col-sm-12 col-md-8" type="text" name="txtorganizacion" [(ngModel)] = "pasaje.precioPasaje"/>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-6 col-md-4">Categoria</label>
+            <select class="col-sm-6 form-control form-control-sm" name="categoria" [(ngModel)] = "pasaje.categoriaPasajero" (change) = 'actualizarPrecio()'>
+                <option value="m">Menor</option>
+                <option value="a">Adulto</option>
+                <option value="j">Jubilado</option>
+            </select>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-12 col-md-4">fecha</label>
+            <input type="date" name="fecha" [(ngModel)] = "pasaje.fechaCompra">
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-12 col-md-4" *ngIf="pasaje.precioPasaje != null && pasaje.categoriaPasajero != null">Total ${{total}}</label>
+        </div>
+        <div class="row form-group">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click)='guardarPasaje()'>
+            Registrar
+          </button>
+        </div>
+      </div>
+    </form>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <div class="row">
+                <div class="col-12">
+                    Resumen de ventas
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    Adultos
+                </div>
+                <div class="col-2">
+                    {{ventasCategoriaA}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    Menores
+                </div>
+                <div class="col-2">
+                    {{ventasCategoriaM}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    Jubilados
+                </div>
+                <div class="col-2">
+                    {{ventasCategoriaJ}}
+                </div>
+            </div>
+            <div class="row bg-success text-white">
+                <div class="col-8">
+                    Total de ventas: 
+                </div>
+                <div class="col-2">
+                    ${{totalVentas}}
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <table class="table table-striped" [mfData]="obtenerListaPasajes()" #mf="mfDataTable" [mfRowsOnPage]="5">
+                <thead>
+                    <tr>
+                        <th>
+                            <mfDefaultSorter by="id">ID</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="dniPasajero">DNI</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="categoriaPasajero">Categoria</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="precioPasaje">Precio</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="fechaCompra">Fecha</mfDefaultSorter>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mf.data">
+                        <td>{{item.id}}</td>
+                        <td>{{item.dniPasajero}}</td>
+                        <td>{{item.categoriaPasajero}}</td>
+                        <td>{{item.precioPasaje}}</td>
+                        <td>{{item.fechaCompra | date: 'dd/MM/yyyy'}}</td>
+                    </tr>               
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

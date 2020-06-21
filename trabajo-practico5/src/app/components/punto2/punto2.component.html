@@ -1,0 +1,102 @@
+<div class="container">
+    <form class="card">
+      <div class="card-header"> Envio de Mensajes-</div>
+        <div class="card-body">
+          <div class="row form-group">
+            <label class="col-sm-12 col-md-4">Usuario (Correo)</label>
+            <input class="form-control col-sm-12 col-md-8" type="email" name="txtusuario" [(ngModel)] = "asistente.usuario"/>
+          </div>
+        <div class="row form-group">
+          <label class="col-sm-12 col-md-4" >Nombre de Organizacion</label>
+          <input class="form-control col-sm-12 col-md-8" type="text" name="txtorganizacion" [(ngModel)] = "asistente.nombreOrganizacion"/>
+        </div>
+        <label> </label>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="chkConstancia" value="false" name="chkconstancia" [(ngModel)] = "asistente.solicitaConstancia">
+            <label class="form-check-label" for="chkConstancia">Solicita Constancia</label>
+        </div>
+        <div class="row form-group">
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click) = 'agregarNuevoAsistente()'>
+            Enviar
+          </button>
+        </div>
+      </div>
+    </form>
+</div>
+
+<!-- TABLA -->
+<div class="container">
+    <h1>Lista Asistentes</h1>
+    <table class="table">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Usuario</th>
+              <th scope="col">Nombre Organizacion</th>
+              <th scope="col">Solicita Constancia</th>
+              <th scope="col">Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let a of listaAsistentes; let indice=index">
+                <td>
+                    {{indice+1}}
+                </td>
+                <td>
+                    {{a.usuario}}
+                </td>
+                <td>
+                    {{a.nombreOrganizacion | uppercase}}
+                </td>
+                <td>
+                    {{a.solicitaConstancia | formatoCheckbox}}
+                </td>
+                <td>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click) = 'seleccionarAsistente(a)'>Editar</button>
+                  <button type="button" class="btn btn-primary" (click) = 'borrarAsistente(a)'>Borrar</button>
+              </td>
+            </tr>
+          </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar Asistente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="card">
+            <div class="card-body">
+              <div class="row form-group">
+                <label class="col-sm-12 col-md-4">Usuario (Correo)</label>
+                <input class="form-control col-sm-12 col-md-8" type="email" name="txtusuario" [(ngModel)] = "asistente.usuario"/>
+              </div>
+            <div class="row form-group">
+              <label class="col-sm-12 col-md-4" >Nombre de Organizacion</label>
+              <input class="form-control col-sm-12 col-md-8" type="text" name="txtorganizacion" [(ngModel)] = "asistente.nombreOrganizacion"/>
+            </div>
+            <label> </label>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="chkConstancia" value="false" name="chkconstancia" [(ngModel)] = "asistente.solicitaConstancia">
+                <label class="form-check-label" for="chkConstancia">Solicita Constancia</label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiarAsistente()">Cancelar</button>
+         <!-- Button trigger modal -->
+         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click) = 'modificarAsistente()'>
+          Guardar Cambios
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
