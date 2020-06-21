@@ -17,8 +17,8 @@ asistenteCtrl.createAsistente = async(req, res) => {
 }
 
 asistenteCtrl.getAsistente = async(req, res) => {
-    const asistente = await Asistente.find(req.params.id);
-    res.json(Asistente);
+    const asistente = await Asistente.findById(req.params.id);
+    res.json(asistente);
 }
 
 asistenteCtrl.editAsistente = async(req,res) => {

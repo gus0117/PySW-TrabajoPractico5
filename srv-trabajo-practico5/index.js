@@ -10,6 +10,10 @@ app.use(cors({origin:'http://localhost:4200'}));
 
 //Cargamos el modulo de direccionamiento de rutas
 app.use('/api/punto1', require('./routes/punto1.router'));
+app.use('/api/punto2', require('./routes/punto2.router'));
+app.use('/api/punto2b', require('./routes/punto2b.router'));
+app.use('/api/punto3a', require('./routes/punto3a.router'));
+app.use('/api/punto3b', require('./routes/punto3b.router'));
 
 //setting
 app.set('port', process.env.PORT || 3000);
