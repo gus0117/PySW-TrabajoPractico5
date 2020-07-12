@@ -14,6 +14,7 @@ app.use('/api/punto2', require('./routes/punto2.router'));
 app.use('/api/punto2b', require('./routes/punto2b.router'));
 app.use('/api/punto3a', require('./routes/punto3a.router'));
 app.use('/api/punto3b', require('./routes/punto3b.router'));
+app.use('/api/punto4', require('./routes/punto4.rounter'));
 
 //setting
 app.set('port', process.env.PORT || 3000);

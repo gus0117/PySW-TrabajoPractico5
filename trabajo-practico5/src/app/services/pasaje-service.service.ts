@@ -1,38 +1,44 @@
 import { Injectable } from '@angular/core';
 import { Pasaje } from '../models/pasaje';
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
 export class PasajeServiceService {
+  private url = "http://localhost:3000/api/punto3b/";
   listaPasajes: Array<Pasaje>;
-  constructor() { 
-    this.listaPasajes = new Array<Pasaje>();
-    this.listaPasajes = 
-    [{
-      id:1,
-      dniPasajero:23321123,
-      categoriaPasajero:"m",
-      fechaCompra:new Date(2020,2,10),
-      precioPasaje: 300.52
-    }];
+
+  constructor(private _http:HttpClient) { 
+    
   }
 
   /**
    * Obtener todos los pasajes disponibles
    */
-  getPasajes(){
-    return this.listaPasajes;
+  getPasajes():Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        
+      })
+    }   
+    return this._http.get(this.url, httpOptions);
   }
 
   /**
    * Agregar un nuevo pasaje a la lista
    * @param pasaje Nuevo pasaje
    */
-  addPasaje(pasaje: Pasaje){
-    //Generar id
-    pasaje.id = this.getIdDisponible();
-    //Agrega 
-    this.listaPasajes.push(pasaje);
+  addPasaje(pasaje: Pasaje):Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      })
+    }
+    let body = JSON.stringify(pasaje);
+    return this._http.post(this.url, body, httpOptions);
   }
 
   /**
@@ -40,30 +46,26 @@ export class PasajeServiceService {
    * @param pasaje Pasaje a eliminar
    */
   deletePasaje(pasaje: Pasaje){
-    //Busca la id del pasaje a eliminar en la lista y obtiene su indice
-    var idBorrar = this.listaPasajes.findIndex((item: Pasaje) => item.id == pasaje.id);
-    //Elimina por indice
-    this.listaPasajes.splice(idBorrar, 1);
+    const httpOptions = {
+      headers: new HttpHeaders({
+       
+      })
+    }
+    return this._http.delete(this.url+pasaje._id,httpOptions);
   }
 
   /**
    * Actualiza la lista de pasajes
    * @param pasaje Pasaje a actualizar
    */
-  updatePunto(pasaje: Pasaje){
-    var idBorrar = this.listaPasajes.findIndex((item: Pasaje) => item.id == pasaje.id);    
-    this.listaPasajes.splice(idBorrar, 1,pasaje);
-
-  }
-
-  getIdDisponible(){
-    var maxid: number;
-    maxid = 0;
-    for( var i= 0; i < this.listaPasajes.length; i++){
-      if(maxid < this.listaPasajes[i].id){
-        maxid = this.listaPasajes[i].id
-      }
+  updatePasaje(pasaje: Pasaje){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      })
     }
-    return (maxid + 1);
+    let body = JSON.stringify(pasaje);
+    return this._http.put(this.url+pasaje._id, body, httpOptions);
+
   }
 }

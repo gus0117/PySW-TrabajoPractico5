@@ -76,7 +76,7 @@
             </div>
         </div>
         <div class="col-8">
-            <table class="table table-striped" [mfData]="obtenerListaPasajes()" #mf="mfDataTable" [mfRowsOnPage]="5">
+            <table class="table table-striped" [mfData]="listaPasajes" #mf="mfDataTable" [mfRowsOnPage]="5">
                 <thead>
                     <tr>
                         <th>
@@ -97,8 +97,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of mf.data">
-                        <td>{{item.id}}</td>
+                    <tr *ngFor="let item of mf.data; index as i">
+                        <td>{{i+1}}</td>
                         <td>{{item.dniPasajero}}</td>
                         <td>{{item.categoriaPasajero}}</td>
                         <td>{{item.precioPasaje}}</td>

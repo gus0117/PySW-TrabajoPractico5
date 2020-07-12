@@ -2,6 +2,7 @@
 <div class="container">
     <form class="card">
       <div class="card-header"> Envio de Mensajes-</div>
+      
         <div class="card-body">
           <div class="row form-group">
             <label class="col-sm-12 col-md-4">Para</label>
@@ -11,6 +12,13 @@
           <label class="col-sm-12 col-md-4" >Desde</label>
           <input class="form-control col-sm-12 col-md-8" type="number" name="txthasta" [(ngModel)] = "mensaje.para"/>
         </div>
+        <div class="row form-group">
+          <label class="col-sm-12 col-md-4">Empresa</label>
+          <select class="form-control col-sm-6 col-md-6" [(ngModel)]="mensaje.empresa" name="selectEmpresa">
+            <option selected>Seleccione su empresa</option>
+            <option *ngFor="let e of empresas" [ngValue]="e" name="opcion">{{e.nombre}}</option>
+          </select>
+        </div>
         <label> </label>
         <div class="row form-group">
           <textarea class="form-control" [maxlength]="tamMaxTexto" rows="5" name="txtTexto" [(ngModel)] = "mensaje.texto" (ngModelChange) = "cambiarTamTexto()">  
@@ -18,15 +26,48 @@
         </div>
         <div class="row form-group">
           <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+          <button type="button" *ngIf="mensaje._id==null"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click)="agregarMensaje()">
             Enviar
+          </button>
+          <button type="button" *ngIf="mensaje._id!=null" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click)="editarMensaje()">
+            Editar
           </button>
           <button type="button" class="btn btn-primary" (click) = 'limpiarFormulario()'>Limpiar</button>            
         </div>
       </div>
     </form>
 </div>
-
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Fecha</th>
+        <th>Para</th>
+        <th>Desde</th>
+        <th>Mensaje</th>
+        <th>Empresa</th>
+        <th>Email Empresa</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let m of mensajes; index as i">
+        <td>{{i+1}}</td>
+        <td>{{m.fecha | date:'d/M/yyyy'}}</td>
+        <td>{{m.para}}</td>
+        <td>{{m.desde}}</td>
+        <td>{{m.texto}}</td>
+        <td>{{m.empresa.nombre}}</td>
+        <td>{{m.empresa.email}}</td>
+        <th>
+          <button type="button" class="btn btn-danger" (click)="eliminarMensaje(m)">Borrar</button>
+          <button type="button" class="btn btn-warning" (click)="mostrarMensaje(m)">Editar</button>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 
 <!-- Modal -->
@@ -34,18 +75,19 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Mensaje enviado</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
+        <h5>Fecha: {{mensaje.fecha}}</h5>
         <h5>Para: {{mensaje.para}}</h5>
         <h5>Desde: {{mensaje.desde}}</h5>
         <h5>Mensaje: {{mensaje.texto}}</h5>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limpiarFormulario()">Cerrar</button>
       </div>
     </div>
   </div>

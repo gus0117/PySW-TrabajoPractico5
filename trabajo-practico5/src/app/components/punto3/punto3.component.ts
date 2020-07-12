@@ -11,6 +11,7 @@ import { PasajeServiceService } from '../../services/pasaje-service.service';
 export class Punto3Component implements OnInit {
 
   pasaje: Pasaje;
+  listaPasajes: Array<Pasaje>;
   total:number;
   totalVentas:number = 0;
   ventasCategoriaM:number = 0;
@@ -19,6 +20,7 @@ export class Punto3Component implements OnInit {
 
   constructor(private pasajeService:PasajeServiceService) {
     this.pasaje = new Pasaje();
+    this.cargarListaPasajes();
   }
 
   ngOnInit(): void {
@@ -55,7 +57,18 @@ export class Punto3Component implements OnInit {
     }
   }
 
-  obtenerListaPasajes(): Array<Pasaje>{
-    return this.pasajeService.getPasajes();
+  cargarListaPasajes(){
+    this.pasajeService.getPasajes().subscribe(
+      (result) => {
+        this.listaPasajes = new Array<Pasaje>();
+        let auxPasaje;
+        result.forEach(p => {
+          auxPasaje = new Pasaje();
+          Object.assign(auxPasaje, p);
+          this.listaPasajes.push(auxPasaje);
+        })
+      },
+      (error) => { console.log("error en la peticion."); }
+    );
   }
 }
